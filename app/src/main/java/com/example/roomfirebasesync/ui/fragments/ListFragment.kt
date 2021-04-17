@@ -1,6 +1,7 @@
 package com.example.roomfirebasesync.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,8 @@ class ListFragment(
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
+    private val logTag = "ListFragment"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +34,7 @@ class ListFragment(
         carsViewModel.carsData.observe(
             viewLifecycleOwner, { carsList->
                 Timber.d("Cars list updated to $carsList")
+                Log.d(logTag, "Cars list updated to $carsList!")
             }
         )
     }

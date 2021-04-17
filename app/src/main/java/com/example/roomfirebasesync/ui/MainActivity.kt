@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.roomfirebasesync.DbSyncApp
 import com.example.roomfirebasesync.R
 import com.example.roomfirebasesync.databinding.ActivityMainBinding
+import com.example.roomfirebasesync.ui.fragments.AddFragment
 import com.example.roomfirebasesync.ui.fragments.ListFragment
 import com.example.roomfirebasesync.viewmodels.CarsViewModel
 import com.example.roomfirebasesync.viewmodels.CarsViewModelFactory
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var frCarsList: ListFragment
+    private lateinit var frAddCar: AddFragment
 
     private val carsViewModel: CarsViewModel by viewModels {
         CarsViewModelFactory((application as DbSyncApp).carsRepository)
@@ -27,10 +29,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         frCarsList = ListFragment(carsViewModel)
+        frAddCar = AddFragment(carsViewModel)
 
         binding.bottomMenu.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.miList -> setCurrentFragment(frCarsList)
+                R.id.miAdd -> setCurrentFragment(frAddCar)
             }
             true
         }
