@@ -22,14 +22,15 @@ out/
 .idea/.name
 .idea/compiler.xml
 .idea/copyright/profiles_settings.xml
-.idea/encodings.xml
+.idea/encodings.xmls
 .idea/misc.xml
 .idea/modules.xml
 .idea/scopes/scope_settings.xml
 .idea/vcs.xml
 .idea/caches
 .idea/navEditor.xml
-.idea/assetWizardSettings.xml
+.idea/assetWizardSettings.sxml
+./.idea/vcs.xml
 *.iml
 
 # Gradle files
