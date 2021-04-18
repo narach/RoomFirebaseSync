@@ -2,12 +2,17 @@ package com.example.roomfirebasesync.viewmodels
 
 import androidx.lifecycle.*
 import com.example.roomfirebasesync.db.entities.Car
+import com.example.roomfirebasesync.db.repository.CarsRepositoryFirestore
 import com.example.roomfirebasesync.db.repository.CarsRepositoryRoom
 import kotlinx.coroutines.launch
 
-class CarsViewModel(private val carsRepoRoom: CarsRepositoryRoom) : ViewModel() {
+class CarsViewModel(
+    private val carsRepoRoom: CarsRepositoryRoom,
+    private val carsRepoFirestore: CarsRepositoryFirestore
+) : ViewModel() {
 
     val carsData: LiveData<List<Car>> = carsRepoRoom.carsList.asLiveData()
+    val carsDataFirestore: MutableLiveData<List<Car>> = MutableLiveData()
 
     val selectedCar: MutableLiveData<Car> = MutableLiveData()
 
@@ -15,26 +20,35 @@ class CarsViewModel(private val carsRepoRoom: CarsRepositoryRoom) : ViewModel() 
         carsRepoRoom.insert(car)
     }
 
-    fun update(device: Car) = viewModelScope.launch {
-        carsRepoRoom.update(device)
+    fun update(car: Car) = viewModelScope.launch {
+        carsRepoRoom.update(car)
     }
 
-    fun delete(device: Car) = viewModelScope.launch {
-        carsRepoRoom.delete(device)
+    fun delete(car: Car) = viewModelScope.launch {
+        carsRepoRoom.delete(car)
     }
 
-    fun selectCar(devicePos: Int) {
+    fun selectCar(carPos: Int) {
         carsData.value?.let { carsList ->
-            this.selectedCar.postValue(carsList[devicePos])
+            this.selectedCar.postValue(carsList[carPos])
+        }
+    }
+
+    fun saveCarFirestore(car: Car) {
+        viewModelScope.launch {
+            carsRepoFirestore.saveCarFirestore(car)
         }
     }
 }
 
-class CarsViewModelFactory(private val repositoryRoom: CarsRepositoryRoom) : ViewModelProvider.Factory {
+class CarsViewModelFactory(
+    private val repositoryRoom: CarsRepositoryRoom,
+    private val repositoryFirestore: CarsRepositoryFirestore
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CarsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CarsViewModel(repositoryRoom) as T
+            return CarsViewModel(repositoryRoom, repositoryFirestore) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

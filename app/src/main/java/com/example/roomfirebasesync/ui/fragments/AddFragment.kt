@@ -54,7 +54,8 @@ class AddFragment(
                 newCar.color = etColor.text.toString()
 
                 carsViewModel.insert(newCar)
-                saveCarFirestore(newCar)
+                carsViewModel.saveCarFirestore(newCar)
+
                 Log.d(logTag, "New car: $newCar is added!")
             }
         }

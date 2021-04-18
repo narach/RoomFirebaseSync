@@ -20,7 +20,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var frAddCar: AddFragment
 
     private val carsViewModel: CarsViewModel by viewModels {
-        CarsViewModelFactory((application as DbSyncApp).carsRepository)
+        CarsViewModelFactory(
+            (application as DbSyncApp).carsRepository,
+            (application as DbSyncApp).carsRepositoryFirestore,
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
