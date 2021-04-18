@@ -5,7 +5,7 @@ import com.example.roomfirebasesync.db.dao.CarsDao
 import com.example.roomfirebasesync.db.entities.Car
 import kotlinx.coroutines.flow.Flow
 
-class CarsRepository(private val carsDao: CarsDao) {
+class CarsRepositoryRoom(private val carsDao: CarsDao) {
 
     val carsList: Flow<List<Car>> = carsDao.getAll()
 

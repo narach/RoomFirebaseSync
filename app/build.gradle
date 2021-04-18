@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -80,4 +81,12 @@ dependencies {
 
     // Timber - Simplified logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Firebase Firestore - core
+    implementation platform('com.google.firebase:firebase-bom:27.0.0')
+    // Firestore Kotlin Mappings
+    implementation 'com.google.firebase:firebase-firestore-ktx:22.1.2'
+    // Firestore coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+
 }

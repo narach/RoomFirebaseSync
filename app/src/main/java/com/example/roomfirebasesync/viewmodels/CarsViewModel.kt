@@ -2,25 +2,25 @@ package com.example.roomfirebasesync.viewmodels
 
 import androidx.lifecycle.*
 import com.example.roomfirebasesync.db.entities.Car
-import com.example.roomfirebasesync.db.repository.CarsRepository
+import com.example.roomfirebasesync.db.repository.CarsRepositoryRoom
 import kotlinx.coroutines.launch
 
-class CarsViewModel(private val carsRepo: CarsRepository) : ViewModel() {
+class CarsViewModel(private val carsRepoRoom: CarsRepositoryRoom) : ViewModel() {
 
-    val carsData: LiveData<List<Car>> = carsRepo.carsList.asLiveData()
+    val carsData: LiveData<List<Car>> = carsRepoRoom.carsList.asLiveData()
 
     val selectedCar: MutableLiveData<Car> = MutableLiveData()
 
     fun insert(car: Car) = viewModelScope.launch {
-        carsRepo.insert(car)
+        carsRepoRoom.insert(car)
     }
 
     fun update(device: Car) = viewModelScope.launch {
-        carsRepo.update(device)
+        carsRepoRoom.update(device)
     }
 
     fun delete(device: Car) = viewModelScope.launch {
-        carsRepo.delete(device)
+        carsRepoRoom.delete(device)
     }
 
     fun selectCar(devicePos: Int) {
@@ -30,11 +30,11 @@ class CarsViewModel(private val carsRepo: CarsRepository) : ViewModel() {
     }
 }
 
-class CarsViewModelFactory(private val repository: CarsRepository) : ViewModelProvider.Factory {
+class CarsViewModelFactory(private val repositoryRoom: CarsRepositoryRoom) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CarsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CarsViewModel(repository) as T
+            return CarsViewModel(repositoryRoom) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
