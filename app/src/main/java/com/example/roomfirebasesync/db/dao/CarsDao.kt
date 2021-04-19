@@ -16,6 +16,9 @@ interface CarsDao {
     @Query("SELECT * FROM cars ORDER BY id")
     fun getAll() : Flow<List<Car>>
 
+    @Query("SELECT * FROM cars ORDER BY id")
+    fun getAllSync() : MutableList<Car>
+
     @Transaction
     @Query("DELETE FROM cars")
     suspend fun deleteAll()

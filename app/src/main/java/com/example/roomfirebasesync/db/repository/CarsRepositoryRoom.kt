@@ -15,6 +15,10 @@ class CarsRepositoryRoom(private val carsDao: CarsDao) {
         carsDao.insert(car)
     }
 
+    fun getAllSync() : MutableList<Car> {
+        return carsDao.getAllSync()
+    }
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun update(car: Car) {

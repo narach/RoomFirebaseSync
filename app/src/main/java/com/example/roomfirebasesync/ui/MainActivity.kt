@@ -11,6 +11,8 @@ import com.example.roomfirebasesync.ui.fragments.AddFragment
 import com.example.roomfirebasesync.ui.fragments.ListFragment
 import com.example.roomfirebasesync.viewmodels.CarsViewModel
 import com.example.roomfirebasesync.viewmodels.CarsViewModelFactory
+import com.example.roomfirebasesync.workmanager.SyncViewModel
+import com.example.roomfirebasesync.workmanager.SyncViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,12 +28,20 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private val syncViewModel: SyncViewModel by viewModels {
+        SyncViewModelFactory(
+            application,
+            (application as DbSyncApp).carsRepository,
+            (application as DbSyncApp).carsRepositoryFirestore,
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        frCarsList = ListFragment(carsViewModel)
+        frCarsList = ListFragment(carsViewModel, syncViewModel)
         frAddCar = AddFragment(carsViewModel)
 
         binding.bottomMenu.setOnNavigationItemSelectedListener { item ->

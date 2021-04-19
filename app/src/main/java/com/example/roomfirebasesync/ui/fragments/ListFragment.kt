@@ -2,17 +2,19 @@ package com.example.roomfirebasesync.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.roomfirebasesync.R
 import com.example.roomfirebasesync.databinding.FragmentListBinding
 import com.example.roomfirebasesync.viewmodels.CarsViewModel
+import com.example.roomfirebasesync.workmanager.SyncViewModel
 import timber.log.Timber
 
 class ListFragment(
-    private val carsViewModel: CarsViewModel
+    private val carsViewModel: CarsViewModel,
+    private val syncViewModel: SyncViewModel,
 ) : Fragment(R.layout.fragment_list) {
 
     private var _binding: FragmentListBinding? = null
@@ -37,6 +39,12 @@ class ListFragment(
                 Log.d(logTag, "Cars list updated to $carsList!")
             }
         )
+
+        with(binding) {
+            btnSyncDb.setOnClickListener {
+                syncViewModel.applySync()
+            }
+        }
     }
 
     override fun onDestroyView() {
