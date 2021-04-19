@@ -26,10 +26,10 @@ class SyncViewModel(application: Application,
         var requestBuilder = OneTimeWorkRequest.Builder(ReadDataWorker::class.java)
         var readDataRequest = requestBuilder.build()
         var continuation = workManager.beginWith(readDataRequest)
-        var mergeDataRequest = OneTimeWorkRequest.Builder(MergeDataWorker::class.java).build()
-        continuation = continuation.then(mergeDataRequest)
-        var saveDataWorker = OneTimeWorkRequest.from(SaveDataWorker::class.java)
-        continuation = continuation.then(saveDataWorker)
+//        var mergeDataRequest = OneTimeWorkRequest.Builder(MergeDataWorker::class.java).build()
+//        continuation = continuation.then(mergeDataRequest)
+//        var saveDataWorker = OneTimeWorkRequest.from(SaveDataWorker::class.java)
+//        continuation = continuation.then(saveDataWorker)
         continuation.enqueue()
     }
 }

@@ -5,6 +5,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.example.roomfirebasesync.DbSyncApp
+import com.example.roomfirebasesync.db.entities.Car
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
 
@@ -22,13 +23,23 @@ class ReadDataWorker(
         runBlocking {
             var roomList = carsRepoRoom.getAllSync()
             var firebaseList = carsRepoFirestore.getAllCars()
-            outputData.keyValueMap["room"] = roomList
-            outputData.keyValueMap["firebase"] = firebaseList
+            var resultList = mutableListOf<Car>()
+            resultList.addAll(roomList)
+            resultList.addAll(firebaseList)
+
+            // Cleanup the Room database
+            carsRepoRoom.deleteAll()
+            // Cleanup the Firestore database
+            carsRepoFirestore.deleteAllCars()
+
+            // Fill in both Room and Firestore database with the same values
+            for(car in resultList) {
+                carsRepoRoom.insert(car)
+                carsRepoFirestore.saveCarFirestore(car)
+            }
         }
 
         return Result.success(outputData)
     }
 
-    suspend fun <T> Flow<List<T>>.flattenToList() =
-        flatMapConcat { it.asFlow() }.toList()
 }

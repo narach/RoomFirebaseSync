@@ -32,4 +32,8 @@ class CarsRepositoryRoom(private val carsDao: CarsDao) {
             carsDao.delete(carId)
         }
     }
+
+    suspend fun deleteAll() {
+        carsDao.deleteAll()
+    }
 }

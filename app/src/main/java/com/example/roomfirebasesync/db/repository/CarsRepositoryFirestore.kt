@@ -28,17 +28,28 @@ class CarsRepositoryFirestore() {
         }
     }
 
-    fun getAllCars() : MutableList<Car?> {
-        val carsList = mutableListOf<Car?>()
+    fun getAllCars() : MutableList<Car> {
+        val carsList = mutableListOf<Car>()
 
         CoroutineScope(Dispatchers.IO).launch {
             val querySnapshot = carsColletionRef.get().await()
             for (document in querySnapshot.documents) {
                 val car = document.toObject<Car>()
-                carsList.add(car)
+                car?.let {
+                    carsList.add(it)
+                }
             }
         }
 
         return carsList
+    }
+
+    fun deleteAllCars() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val carsQuery = carsColletionRef.get().await()
+            for(document in carsQuery) {
+                carsColletionRef.document(document.id).delete()
+            }
+        }
     }
 }

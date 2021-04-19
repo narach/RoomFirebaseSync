@@ -8,12 +8,12 @@ import androidx.room.PrimaryKey
 data class Car(
     @ColumnInfo(index = true)
     @PrimaryKey(autoGenerate = true)
-    var id: Int?,
-    var brand: String,
-    var model: String,
-    var engineType: String,
-    var engineSize: Int,
-    var transmissionType: String,
-    var color: String,
+    var id: Int? = -1,
+    var brand: String = "",
+    var model: String = "",
+    var engineType: String = "",
+    var engineSize: Int = 0,
+    var transmissionType: String = "",
+    var color: String = "",
     var imgUri: String = ""
-)
+) 
